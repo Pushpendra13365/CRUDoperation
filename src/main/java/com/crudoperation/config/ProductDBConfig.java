@@ -3,7 +3,6 @@ package com.crudoperation.config;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
@@ -17,45 +16,40 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
-import java.util.Map;
 
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        entityManagerFactoryRef = "productEntityManagerFactory",
-        basePackages = {"com.crudoperation.repository.product"},
-        transactionManagerRef = "productTransactionManager"
-)
-@EnableConfigurationProperties
+        entityManagerFactoryRef = "entityManagerFactory",
+        basePackages = {"com.crudoperation.repositoryProduct"} )
 public class ProductDBConfig {
 
     @Primary
-    @Bean(name = "productDataSource")
-    @ConfigurationProperties(prefix = "spring.datasource.product")
+    @Bean(name = "dataSource")
+    @ConfigurationProperties(prefix = "spring.db1.datasource")
     public DataSource dataSource() {
         return DataSourceBuilder.create().build();
     }
 
     @Primary
-    @Bean(name = "productEntityManagerFactory")
+    @Bean(name = "entityManagerFactory")
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(
-            EntityManagerFactoryBuilder builder, @Qualifier("productDataSource") DataSource dataSource) {
-        Map<String, Object> properties = new HashMap<>();
+            EntityManagerFactoryBuilder builder, @Qualifier("dataSource") DataSource dataSource) {
+        HashMap<String, Object> properties = new HashMap<>();
         properties.put("hibernate.hbm2ddl.auto", "update");
-        properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
 
         return builder
                 .dataSource(dataSource)
                 .properties(properties)
-                .packages("com.crudoperation.entity.product")
-                .persistenceUnit("Product")
+                .packages("com.crudoperation.entityProduct")
+                .persistenceUnit("db1")
                 .build();
     }
 
     @Primary
-    @Bean(name = "productTransactionManager")
+    @Bean(name = "transactionManager")
     public PlatformTransactionManager transactionManager(
-            @Qualifier("productEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
+            @Qualifier("entityManagerFactory") EntityManagerFactory entityManagerFactory) {
         return new JpaTransactionManager(entityManagerFactory);
     }
 }

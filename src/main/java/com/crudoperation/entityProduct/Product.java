@@ -1,4 +1,4 @@
-package com.crudoperation.entity;
+package com.crudoperation.entityProduct;
 
 
 import jakarta.persistence.*;

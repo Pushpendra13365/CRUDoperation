@@ -1,4 +1,4 @@
-package com.crudoperation.entity;
+package com.crudoperation.entityUser;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

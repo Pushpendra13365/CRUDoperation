@@ -3,7 +3,6 @@ package com.crudoperation.config;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
@@ -16,20 +15,17 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
-import java.util.Map;
 
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
         entityManagerFactoryRef = "userEntityManagerFactory",
-        basePackages = {"com.crudoperation.repository.user"},
-        transactionManagerRef = "userTransactionManager"
-)
-@EnableConfigurationProperties
+        basePackages = {"com.crudoperation.repositoryUser"}
+    )
 public class UserDBConfig {
 
     @Bean(name = "userDataSource")
-    @ConfigurationProperties(prefix = "spring.datasource.user")
+    @ConfigurationProperties(prefix = "spring.db2.datasource")
     public DataSource dataSource() {
         return DataSourceBuilder.create().build();
     }
@@ -37,14 +33,13 @@ public class UserDBConfig {
     @Bean(name = "userEntityManagerFactory")
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(
             EntityManagerFactoryBuilder builder, @Qualifier("userDataSource") DataSource dataSource) {
-        Map<String, Object> properties = new HashMap<>();
+        HashMap<String, Object> properties = new HashMap<>();
         properties.put("hibernate.hbm2ddl.auto", "update");
-        properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
 
         return builder
                 .dataSource(dataSource)
                 .properties(properties)
-                .packages("com.crudoperation.entity.user")
+                .packages("com.crudoperation.entityUser")
                 .persistenceUnit("User")
                 .build();
     }

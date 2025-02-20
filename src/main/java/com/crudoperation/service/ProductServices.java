@@ -1,9 +1,9 @@
 package com.crudoperation.service;
 
-import com.crudoperation.entity.Product;
+import com.crudoperation.entityProduct.Product;
 import com.crudoperation.exception.PartiCularProductNotFoundException;
 import com.crudoperation.exception.ProductNotFoundException;
-import com.crudoperation.repository.ProductRepository;
+import com.crudoperation.repositoryProduct.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

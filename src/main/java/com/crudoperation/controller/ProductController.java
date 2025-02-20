@@ -1,6 +1,6 @@
 package com.crudoperation.controller;
 
-import com.crudoperation.entity.Product;
+import com.crudoperation.entityProduct.Product;
 import com.crudoperation.service.ProductServices;
 import org.springframework.web.bind.annotation.*;
 
