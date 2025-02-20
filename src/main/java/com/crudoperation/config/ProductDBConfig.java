@@ -27,7 +27,6 @@ import java.util.Map;
         transactionManagerRef = "productTransactionManager"
 )
 @EnableConfigurationProperties
-
 public class ProductDBConfig {
 
     @Primary
