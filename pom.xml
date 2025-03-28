@@ -89,6 +89,8 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>crud-operation-docker</finalName>
 	</build>
+
 
 </project>
